@@ -1,0 +1,35 @@
+endpoints:
+  - path: '/post'
+    kafka:
+      topic:
+        incoming: 'posts-to-filter'
+        outgoing:
+          success: 'approved-posts'
+          failure: 'blocked-posts'
+    dto:
+      fields:
+        - path: 'post.content'
+          rules:
+            - type: 'CONTAINS'
+              value: [ 'spam', 'offensive' ]
+            - type: 'MAX_LENGTH'
+              value: 1000
+            - type: 'MIN_LENGTH'
+              value: 3
+  - path: '/post/comments'
+    kafka:
+      topic:
+        incoming: 'post-comments-to-filter'
+        outgoing:
+          success: 'approved-comments'
+          failure: 'blocked-comments'
+    dto:
+      fields:
+        - path: 'comment'
+          rules:
+            - type: 'CONTAINS'
+              value: ['spam', 'offensive']
+            - type: 'MAX_LENGTH'
+              value: 300
+            - type: 'MIN_LENGTH'
+              value: 3

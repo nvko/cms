@@ -1,0 +1,3 @@
+#cms.config.type=json //TODO:
+#cms.config.type=xml
+#cms.config.type=yaml
